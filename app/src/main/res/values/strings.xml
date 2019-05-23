@@ -1,0 +1,7 @@
+<resources>
+  <string name="app_name">FizzBuzz</string>
+  <string name="mockup_value">##</string>
+  <string name="play">Play</string>
+  <string name="pause">Pause</string>
+  <string name="settings">Settings</string>
+</resources>
