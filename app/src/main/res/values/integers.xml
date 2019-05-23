@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <integer name="time_limit_default">3</integer>
+  <integer name="num_digits_default">99</integer>
+  <integer name="game_time_default">30</integer>
+</resources>

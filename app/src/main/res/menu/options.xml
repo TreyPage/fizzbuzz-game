@@ -15,7 +15,7 @@
     app:showAsAction="always"/>
 
   <item
-    android:id="@+id/Settings"
+    android:id="@+id/settings"
     android:title="@string/settings"
     app:showAsAction="never"/>
 

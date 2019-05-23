@@ -4,4 +4,16 @@
   <string name="play">Play</string>
   <string name="pause">Pause</string>
   <string name="settings">Settings</string>
+
+  <string name="time_limit_key">time_limit</string>
+  <string name="time_limit_title">Time Limit</string>
+  <string name="time_limit_summary">Seconds each value is displayed (0 = no limit).</string>
+
+  <string name="num_digits_key">max_limit</string>
+  <string name="num_digits_title">Max Number</string>
+  <string name="num_digits_summary">The highest number the game can generate.</string>
+
+  <string name="game_time_key">game_time</string>
+  <string name="game_time_title">Game Length</string>
+  <string name="game_time_summary">How many seconds the game will run for</string>
 </resources>
