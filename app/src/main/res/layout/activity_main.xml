@@ -12,17 +12,16 @@
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:padding="0dp"
-    android:autoSizeMaxTextSize="1000sp"
-    android:autoSizeMinTextSize="48sp"
-    android:autoSizeStepGranularity="8sp"
+    android:autoSizeMaxTextSize="288sp"
+    android:autoSizeMinTextSize="64sp"
+    android:autoSizeStepGranularity="16sp"
     android:autoSizeTextType="uniform"
     android:gravity="center"
-    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintHeight_percent="1"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintWidth_percent="1"/>
+    app:layout_constraintWidth_percent="0.9"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
