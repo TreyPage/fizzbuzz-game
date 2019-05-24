@@ -12,7 +12,9 @@
     android:id="@+id/pause"
     android:title="@string/pause"
     android:icon="@drawable/pause"
-    app:showAsAction="always"/>
+    app:showAsAction="always"
+    android:visible="false"
+    android:enabled="true"/>
 
   <item
     android:id="@+id/settings"

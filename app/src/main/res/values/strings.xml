@@ -1,6 +1,8 @@
 <resources>
   <string name="app_name">FizzBuzz</string>
+
   <string name="mockup_value">##</string>
+
   <string name="play">Play</string>
   <string name="pause">Pause</string>
   <string name="settings">Settings</string>
@@ -15,5 +17,5 @@
 
   <string name="game_time_key">game_time</string>
   <string name="game_time_title">Game Length</string>
-  <string name="game_time_summary">How many seconds the game will run for</string>
+  <string name="game_time_summary">How many seconds the game will run for.</string>
 </resources>
