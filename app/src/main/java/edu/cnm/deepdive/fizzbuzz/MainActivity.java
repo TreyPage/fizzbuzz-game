@@ -2,18 +2,26 @@ package edu.cnm.deepdive.fizzbuzz;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import java.lang.annotation.Inherited;
+import androidx.core.view.GestureDetectorCompat;
+import androidx.preference.PreferenceManager;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
+  private ViewGroup valueContainer;
+  private Random rng = new Random();
   private int value;
   private TextView valueDisplay;
   private Timer timer;
@@ -25,64 +33,21 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     valueDisplay = findViewById(R.id.value_display);
+    valueContainer = findViewById(R.id.value_container);
+    GestureDetectorCompat detector = new GestureDetectorCompat(this, new FlingListener());
+    valueContainer.setOnTouchListener(new OnTouchListener() {
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        if (!detector.onTouchEvent(event) && event.getActionMasked() == MotionEvent.ACTION_UP) {
+          valueContainer.setTranslationY(0);
+          valueContainer.setTranslationX(0);
+        }
+        return true;
+      }
+    });
     Log.d("Trace", "Leaving onCreate");
   }
 
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    Log.d("Trace", "Entering OnRestoreInstanceState");
-    super.onRestoreInstanceState(savedInstanceState);
-    Log.d("Trace", "Leaving OnRestoreInstanceState");
-  }
-
-  @Override
-  protected void onRestart() {
-    Log.d("Trace", "Entering OnRestart");
-    super.onRestart();
-    Log.d("Trace", "Leaving OnRestart");
-  }
-
-  @Override
-  protected void onStart() {
-    Log.d("Trace", "Entering onStart");
-    super.onStart();
-    Log.d("Trace", "Leaving onStart");
-  }
-
-  @Override
-  protected void onResume() {
-    Log.d("Trace", "Entering onResume");
-    super.onResume();
-    Log.d("Trace", "Leaving onResume");
-  }
-
-  @Override
-  protected void onPause() {
-    Log.d("Trace", "Entering onPause");
-    super.onPause();
-    Log.d("Trace", "Leaving onPause");
-  }
-
-  @Override
-  protected void onStop() {
-    Log.d("Trace", "Entering onStop");
-    super.onStop();
-    Log.d("Trace", "Leaving onStop");
-  }
-
-  @Override
-  protected void onSaveInstanceState(Bundle outState) {
-    Log.d("Trace", "Entering OnSaveInstState");
-    super.onSaveInstanceState(outState);
-    Log.d("Trace", "Leaving OnSaveInstState");
-  }
-
-  @Override
-  protected void onDestroy() {
-    Log.d("Trace", "Entering OnDestroy");
-    super.onDestroy();
-    Log.d("Trace", "Leaving OnDestroy");
-  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,28 +104,71 @@ public class MainActivity extends AppCompatActivity {
 
   private void resumeGame() {
     running = true;
-
-    if (timer == null) {
-      timer = new Timer();
-      timer.schedule(new RandomValueTask(), 0, 3000); //FIXME This should read preferences.
+    if (timer != null) {
+      timer.cancel();
     }
-
+    int timeLimit = PreferenceManager.getDefaultSharedPreferences(this).
+        getInt(getString(R.string.time_limit_key),
+            getResources().getInteger(R.integer.time_limit_default));
+    updateValue();
+    if (timeLimit != 0) {
+      timer = new Timer();
+      timer.schedule(new TimeoutTask(), timeLimit * 1000);
+    }
     invalidateOptionsMenu();
     // TODO Update any necessary fields, timer, & menu.
   }
 
-  private class RandomValueTask extends TimerTask {
+  private void updateValue() {
+    int numDigits = PreferenceManager.getDefaultSharedPreferences(this).getInt
+        (getString(R.string.num_digits_key),
+            getResources().getInteger(R.integer.num_digits_default));
+    int limit = (int) Math.pow(10, numDigits) - 1;
+    value = 1 + rng.nextInt(limit);
+    valueContainer.setTranslationX(0);
+    valueContainer.setTranslationY(0);
+    valueDisplay.setText(Integer.toString(value));
+  }
 
-    private Random rng = new Random();
+  private class TimeoutTask extends TimerTask {
 
     @Override
     public void run() {
       Log.d("Trace", "Entering run");
-      value = rng.nextInt(100); // TODO should reference preferences.
-        runOnUiThread(() -> valueDisplay.setText(Integer.toString(value)));
+      runOnUiThread(MainActivity.this::resumeGame);
       Log.d("Trace", "Leaving run");
+    }
+  }
+
+  public class FlingListener extends GestureDetector.SimpleOnGestureListener {
+
+    private float originX;
+    private float originY;
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+      valueContainer.setTranslationX(e2.getX() - originX);
+      valueContainer.setTranslationY(e2.getY() - originY);
+      return true;
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+      // TODO Detect if it really is a fling, and in which direction; Update tally
+      if (velocityX > 10 || velocityY > 10) {
+        resumeGame(); 
+      } else
+        pauseGame();
+      return true;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent evnt) {
+      originX = evnt.getX();
+      originY = evnt.getY();
+      return true;
     }
 
   }
-
 }
+

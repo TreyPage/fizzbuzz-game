@@ -7,21 +7,30 @@
   android:layout_height="match_parent"
   tools:context=".MainActivity">
 
-  <TextView
-    android:id="@+id/value_display"
+  <FrameLayout
+    android:id="@+id/value_container"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:padding="0dp"
-    android:autoSizeMaxTextSize="288sp"
-    android:autoSizeMinTextSize="64sp"
-    android:autoSizeStepGranularity="16sp"
-    android:autoSizeTextType="uniform"
-    android:gravity="center"
+    android:padding="16dp"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintHeight_percent="1"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintWidth_percent="0.9"/>
+    >
+
+    <TextView
+      android:id="@+id/value_display"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:padding="0dp"
+      android:gravity="center"
+      android:maxLines="1"
+      app:autoSizeMaxTextSize="288sp"
+      app:autoSizeMinTextSize="64sp"
+      app:autoSizeStepGranularity="16sp"
+      app:autoSizeTextType="uniform"
+      />
+
+  </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,8 @@
   <string name="play">Play</string>
   <string name="pause">Pause</string>
   <string name="settings">Settings</string>
+  <string name="difficulty_title">Difficulty</string>
+  <string name="general_title">General</string>
 
   <string name="time_limit_key">time_limit</string>
   <string name="time_limit_title">Time Limit</string>
